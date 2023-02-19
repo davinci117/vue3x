@@ -24,30 +24,11 @@ const router = createRouter({
           name: 'user1',
           component: () => import('../views/user1.vue')
         },
+
         {
-          path: '/user2',
-          name: 'user2',
-          component: () => import('../views/user2.vue')
-        },
-        {
-          path: '/user3',
-          name: 'user3',
-          component: () => import('../views/user3.vue')
-        },
-        {
-          path: '/mall',
-          name: 'mall',
-          component: () => import('../views/mall.vue')
-        },
-        {
-          path: '/page1',
-          name: 'page1',
-          component: () => import('../views/page1.vue')
-        },
-        {
-          path: '/page2',
-          name: 'page2',
-          component: () => import('../views/page2.vue')
+          path: '/product',
+          name: 'product',
+          component: () => import('../views/product.vue')
         },
       ]
     },

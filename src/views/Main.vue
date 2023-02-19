@@ -31,7 +31,7 @@ export default defineComponent({
 </script>
 <style lang="less" scoped>
 .el-aside {
-  width: 200px;
+  width: 180px;
   height: 900px;
   margin-right: 8px;
   // box-shadow: 10px 3px 10px skyblue;
