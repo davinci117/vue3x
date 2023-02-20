@@ -1,5 +1,5 @@
 <template>
-  <el-header>
+  <el-header class="el-header">
     <div class="l-content">
         <common-tab />
     </div>
@@ -7,7 +7,7 @@
       <el-dropdown>
         <span class="el-dropdown-link">
           <img class="userImg" :src="getImgUrl('bz')">
-          <h4>  &nbsp&nbsp&nbsp章北海</h4>
+          <p class="userId">章北海</p>
         </span>
         <template #dropdown>
           <el-dropdown-menu>
@@ -22,7 +22,6 @@
 
 <script>
 import CommonTab from '../components/CommonTab.vue';
-import { useStore } from 'vuex';
 export default {
   setup() {
     const getImgUrl = (name) => {
@@ -60,6 +59,10 @@ export default {
         border-radius: 50%;
         width: 42px;
         height: 42px;
+      }
+      .userId{
+        margin-left: 15px;
+        line-height: 42px;
       }
     }
   }

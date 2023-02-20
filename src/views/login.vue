@@ -2,29 +2,36 @@
   <el-form :model="form" class="loginForm">
     <h3>登陆</h3>
     <el-form-item label="账号">
-      <el-input v-model="form.user" placeholder="请输入账号" />
+      <el-input v-model="form.username" placeholder="请输入账号" />
     </el-form-item>
     <el-form-item label="密码">
-      <el-input type="password" v-model="form.psd" placeholder="请输入密码" />
+      <el-input type="password" v-model="form.password" placeholder="请输入密码" />
     </el-form-item>
     <el-form-item>
-      <el-button style="margin-left: 110px;" type="primary" @click="onSubmit(form)">登陆</el-button>
+      <el-button  type="primary" @click="login()">登陆</el-button>
     </el-form-item>
   </el-form>
 </template>
 
 <script  setup>
-import { reactive } from 'vue'
-import login from "../utils/login.js";
-
+import { getCurrentInstance, reactive } from 'vue'
+import { useRouter } from 'vue-router';
+import { useStore } from 'vuex';
+const {proxy} = getCurrentInstance()
 
 const form = reactive({
-  user: '',
-  psd: '',
+  username: '',
+  password: '',
 })
-const onSubmit = (form) => {
-  console.log('submit!', form.user, form.psd)
-  login.login1(form)
+const router = useRouter()
+const store = useStore()
+const login = async () => {
+  const res = await proxy.$api.getMenu(form)
+  // console.log(res);
+  store.commit('setMenu',res)
+  router.push({
+    name:'home'
+  })
 }
 </script>
 

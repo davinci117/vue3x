@@ -29,6 +29,14 @@ export default {
       mock: false
     })
   },
-  
+  //权限验证后，获取对应的aside列表
+  getMenu(params) {
+    return request({
+      url: '/permission/getMenu',
+      method: 'get',
+      data: params,
+      mock: false
+    })
+  }
 
 } 

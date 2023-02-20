@@ -1,7 +1,7 @@
 import config from "../config";
 import axios from "axios";
 import {ElMessage} from 'element-plus'
-const NETWORK_ERROR = '网络请求异常，请稍后重试！'
+const NETWORK_ERROR = '网络请求异常，请稍后重试！！'
 //创建一个axios实例对象
 const service = axios.create({
   baseURL: config.baseApi
@@ -36,9 +36,8 @@ function request(opt){
    let isMock = config.mock
    if(typeof opt.mock !== 'undefined'){
     isMock = opt.mock
-    
    }
-
+   
    //对线上环境做处理
    if(config.env == 'prod'){
     //线上环境不使用mock的数据

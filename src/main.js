@@ -2,10 +2,9 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
-import store from './store'
+import store from './store/index'
 import * as echarts from 'echarts'
 import api from './api/api'
-// import axios from 'axios'
 import './api/mock'
 
 

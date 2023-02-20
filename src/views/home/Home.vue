@@ -65,6 +65,10 @@ nextTick(() => {
   //获取dom元素
   var myChart2 = echarts.init(document.getElementById('echart2'))
   myChart2.setOption({
+    title: {
+        text: '王朝系列售价',
+        left: 'center'
+      },
     xAxis: {
       type: 'category',
       data: xAxisData

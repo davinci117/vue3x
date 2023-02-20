@@ -37,44 +37,18 @@
 <script  setup>
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
-
-//aside的渲染部分
-const list = [{
-  path: '/',
-  name: 'home',
-  label: '首页',
-  icon: 'House',
-  url: 'Home/Home'
-},
-{
-  path: '/user',
-  name: 'user',
-  label: '用户管理',
-  icon: 'user',
-  url: 'UserManage/UserManage'
-},
-{
-  path: '/product',
-  name: 'product',
-  label: '产品中心',
-  icon: 'Box',
-  url: 'MallManage/MallManage'
-},
-{
-  path: '/manage',
-  name: 'manage',
-  label: '产品管理',
-  icon: 'SuitcaseLine',
-  url: 'UserManage/UserManage1'
-}]
-const items = () => {
-  return list.filter((item) => !item.children)
-}
-//
-
-//路由的跳转部分
 const store = useStore()
 const router = useRouter()
+
+const asyncList = store.state.tabs.menu.menu
+console.log(asyncList);
+
+const items = () => {
+  return asyncList.filter((item) => !item.children)
+}
+
+
+//路由的跳转部分
 const clickMenu = (item) => {
   //跳转指定页面
   router.push(item.name)

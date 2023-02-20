@@ -9,12 +9,12 @@
       </el-button>
         
       <el-form :inline="true" :model="formInline">
-        <el-button @click="getUserData()">刷新列表</el-button>
+        <el-button class="flash"  @click="getUserData()" >刷新列表</el-button>
           <el-form-item>
-            <el-input v-model="formInline.keyWord" placeholder="请输入你要搜索的用户名"/>
+            <el-input class="searchInput" v-model="formInline.keyWord" placeholder="请输入你要搜索的用户名"/>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" @click="handleSearch()">搜索</el-button>
+            <el-button class="search" type="primary" @click="handleSearch()">搜索</el-button>
           </el-form-item>
        </el-form>
     </div>
@@ -232,20 +232,24 @@ const sexFormat = (row)=>{
 </script>
 <style lang="less" scoped>
 .userHeader{
+  height: 40px;
   display: flex;
   justify-content: space-between;
   .addUser {
     border: none;
     margin-bottom: 10px;
   }
-  .userSearch{
-    width: 200px;
-    display: flex;
+  .flash{
+    margin: -17px 10px 0 0;
+  }
+  .search{
+    width: 80px;
+    margin-left: -21px;
   }
 }
 
 .commodityform {
-  margin-left: 8px;
+  padding: 10px;
 }
 
 .pagination {
