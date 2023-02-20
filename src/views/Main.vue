@@ -9,7 +9,6 @@
           <common-header />
         </el-header>
         <el-main class="el-main">
-          <common-tab />
           <router-view></router-view>
         </el-main>
       </el-container>
@@ -34,7 +33,6 @@ export default defineComponent({
   width: 180px;
   height: 900px;
   margin-right: 8px;
-  // box-shadow: 10px 3px 10px skyblue;
   box-shadow: 3px 14px 28px rgba(0,0,0,.25),0 10px 10px rgba(0,0,0,.22)
 }
 
@@ -45,8 +43,11 @@ export default defineComponent({
 }
 
 .el-main {
-  padding: 0;
+  padding: 10px 0 10px 0;
   background-color: #f4f6f9;
+  .tabsAndSearch{
+    display: flex;
+  }
 }
 </style>
 

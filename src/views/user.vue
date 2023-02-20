@@ -1,15 +1,30 @@
 <template>
   <div>
-    <el-button 
-      type="primary" 
-      class="addUser" 
-      @click="handleAdd">添加用户</el-button>
+    <div class="userHeader">
+      <el-button 
+        type="primary" 
+        class="addUser" 
+        prop="add"
+        @click="handleAdd">+添加用户
+      </el-button>
+        
+      <el-form :inline="true" :model="formInline">
+        <el-button @click="getUserData()">刷新列表</el-button>
+          <el-form-item>
+            <el-input v-model="formInline.keyWord" placeholder="请输入你要搜索的用户名"/>
+          </el-form-item>
+          <el-form-item>
+            <el-button type="primary" @click="handleSearch()">搜索</el-button>
+          </el-form-item>
+       </el-form>
+    </div>
 
     <el-dialog 
       v-model="centerDialogVisible" 
       :title="action == 'add' ? '新增用户' : '编辑用户'" 
       width="50%" 
-      align-center>
+      align-center
+      :before-close="handleCancel">
       
       <template #footer>
         <el-form 
@@ -30,8 +45,8 @@
           
           <el-form-item label="性别" prop="sex" >
             <el-select v-model="ruleForm.sex" placeholder="请选择您的性别">
-              <el-option label="男" value="1" />
-              <el-option label="女" value="0" />
+              <el-option label="男" value="男" />
+              <el-option label="女" value="女" />
             </el-select>
           </el-form-item>
           <el-form-item label="住址" prop="addr">
@@ -60,7 +75,7 @@
     <el-table-column prop="edit" label="操作">
       <template #default="scope">
         <el-button @click="handleEdit(scope.row)">编辑</el-button>
-        <el-button type="danger">删除</el-button>
+        <el-button type="danger" @click="handleDelete(scope.row)">删除</el-button>
       </template>
     </el-table-column>
   </el-table>
@@ -68,27 +83,35 @@
   <el-pagination class="pagination" layout="prev, pager, next" :total="config.total" />
 
 </template>
-<script  setup>
-import { onMounted, ref, getCurrentInstance, reactive } from 'vue';
+<script setup>
+import { onMounted, ref, getCurrentInstance, reactive,} from 'vue';
+
+//搜索框
+const formInline = reactive({
+  keyWord:''
+})
+const handleSearch = ()=>{
+config.name = formInline.keyWord
+getUserData(config)
+}
+
 //为了实现视图层与模型 双向绑定 要用ref
 let tableData = ref([])
 const { proxy } = getCurrentInstance()
 const config = reactive({
   total: 0,
   page: 1,
+  name:''
 })
-const getUserData = async () => {
+//获取用户数据来源
+const getUserData = async (config) => {
   //重新封装axios后获取数据 proxy类似于vue2中的this
-  let res = await proxy.$api.getUserData()
-  config.total = res.length
-  //模拟用户数据来源
-  tableData.value = res
-  // console.log(res[1].sex);
+  let res = await proxy.$api.getUserData(config)
+  tableData.value = res.list
 }
 onMounted(() => {
-  getUserData()
+  getUserData(config) 
 })
-
 
 let centerDialogVisible = ref(false)
 
@@ -96,7 +119,6 @@ let centerDialogVisible = ref(false)
 const rules = {
   name: [
     { required: true, message: 'Please input Activity name', trigger: 'blur' },
-    { min: 3, max: 5, message: '请输入正确的名字', trigger: 'blur' },
   ],
   sex: [
     {
@@ -121,21 +143,41 @@ const ruleForm = reactive({
   name: '',
   sex: '',
   date: '',
-  addr: ''
+  addr: '',
 })
+//表单提交
 const onSubmit = (ruleForm) => {
   proxy.$refs.userForm.validate((valid)=>{
     if(valid){
-      //浅拷贝
-      // tableData.value.unshift(ruleForm)
-      //深拷贝
-      const from = JSON.parse(JSON.stringify(ruleForm))
-      tableData.value.unshift(from)
-      if(from){
-        centerDialogVisible.value = false
-        proxy.$refs.userForm.resetFields()//使用resetFields需要在item后面加prop属性
-        console.log(tableData.value.length);
+      if(action.value == 'add'){
+        //新增接口
+        //浅拷贝
+        // tableData.value.unshift(ruleForm)
+        //深拷贝
+        const from = JSON.parse(JSON.stringify(ruleForm))
+        tableData.value.unshift(from)
+        if(from){
+          centerDialogVisible.value = false
+          proxy.$refs.userForm.resetFields()//使用resetFields需要在item后面加prop属性
+        }
+      }else{
+        //编辑接口
+        ruleForm.sex == '男' ? (ruleForm.sex = 1) : (ruleForm.sex = 0)
+        let res = proxy.$api.editUser(ruleForm);
+        console.log(res,'q');
+        if(res){
+          centerDialogVisible.value = false
+          proxy.$refs.userForm.resetFields()
+          getUserData()
+        }
+        
       }
+    }else{
+      ElMessage({
+        showClose:true,
+        message:'请输入正确的内容',
+        type:'error',
+      })
     }
   })  
 }
@@ -151,27 +193,55 @@ const handleEdit = (row)=>{//模板中的scope.row就是该条数据
   centerDialogVisible.value = true
   row.sex == 1 ? (row.sex = '男') : (row.sex = '女')
   //浅拷贝
-  Object.assign(ruleForm,row)
+  //??异步操作
+  proxy.$nextTick(()=>{
+    Object.assign(ruleForm,row)
+  })
+  
+}
+//删除用户
+const handleDelete = (row)=>{
+  ElMessageBox.confirm("您确定删除吗？")
+    .then( async ()=>{
+      console.log('hello');
+      await proxy.$api.deleteUser({
+        id:row.id
+      })
+      ElMessage({
+        showClose:true,
+        message:"删除成功",
+        type:'success',
+      })
+      getUserData(config)
+    })
 }
 //新增用户
 const handleAdd = ()=>{
   action.value = 'add'
   centerDialogVisible.value = true
 }
-//
+//格式化表格中的性别 1和0
 const sexFormat = (row)=>{
-  if (row.sex == 1) {
+  if (row.sex == 1 || row.sex == '男') {
         return "男";
-      } else if(row.sex == 0){
+      } else if(row.sex == 0 || row.sex == '女'){
         return "女";
       }
 }
 
 </script>
 <style lang="less" scoped>
-.addUser {
-  border: none;
-  margin-bottom: 5px;
+.userHeader{
+  display: flex;
+  justify-content: space-between;
+  .addUser {
+    border: none;
+    margin-bottom: 10px;
+  }
+  .userSearch{
+    width: 200px;
+    display: flex;
+  }
 }
 
 .commodityform {

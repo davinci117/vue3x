@@ -61,8 +61,8 @@ const list = [{
   url: 'MallManage/MallManage'
 },
 {
-  path: '/user1',
-  name: 'user1',
+  path: '/manage',
+  name: 'manage',
   label: '产品管理',
   icon: 'SuitcaseLine',
   url: 'UserManage/UserManage1'

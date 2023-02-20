@@ -51,6 +51,7 @@ export default {
 <style lang="less">
 .tabs {
   padding-bottom: 10px;
+  width: 860px;
 }
 
 .el-tag {

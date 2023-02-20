@@ -36,6 +36,7 @@ function request(opt){
    let isMock = config.mock
    if(typeof opt.mock !== 'undefined'){
     isMock = opt.mock
+    
    }
 
    //对线上环境做处理

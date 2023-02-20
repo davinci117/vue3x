@@ -5,7 +5,8 @@ import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 import store from './store'
 import * as echarts from 'echarts'
 import api from './api/api'
-
+// import axios from 'axios'
+import './api/mock'
 
 
 const app = createApp(App)
