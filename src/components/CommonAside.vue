@@ -40,9 +40,8 @@ import { useRouter } from 'vue-router'
 const store = useStore()
 const router = useRouter()
 
-const asyncList = store.state.tabs.menu.menu
-console.log(asyncList);
 
+const asyncList = store.state.tabs.menu.menu
 const items = () => {
   return asyncList.filter((item) => !item.children)
 }

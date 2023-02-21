@@ -14,21 +14,21 @@ export default {
               name: 'home',
               label: '首页',
               icon: 'House',
-              url: 'Home/Home'
+              url: 'home'
             },
             {
               path: '/user',
               name: 'user',
               label: '用户管理',
               icon: 'user',
-              url: 'UserManage/UserManage'
+              url: 'user'
             },
             {
               path: '/product',
               name: 'product',
               label: '产品中心',
               icon: 'Box',
-              url: 'MallManage/MallManage'
+              url: 'prod'
             }
           ],
           token: Mock.Random.guid(),
@@ -45,14 +45,14 @@ export default {
               name: 'home',
               label: '首页',
               icon: 'House',
-              url: 'Home/Home'
+              url: 'home'
             },
             {
               path: '/product',
               name: 'product',
               label: '产品中心',
               icon: 'Box',
-              url: 'MallManage/MallManage'
+              url: 'prod'
             }
           ],
           token: Mock.Random.guid(),

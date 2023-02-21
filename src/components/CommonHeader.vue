@@ -7,12 +7,13 @@
       <el-dropdown>
         <span class="el-dropdown-link">
           <img class="userImg" :src="getImgUrl('bz')">
+          <!-- 用户id -->
           <p class="userId">章北海</p>
         </span>
         <template #dropdown>
           <el-dropdown-menu>
             <el-dropdown-item>个人中心</el-dropdown-item>
-            <el-dropdown-item>退出系统</el-dropdown-item>
+            <el-dropdown-item @click="handleLoginOut">退出系统</el-dropdown-item>
           </el-dropdown-menu>
         </template>
       </el-dropdown>
@@ -21,15 +22,27 @@
 </template>
 
 <script>
+import { useRouter } from 'vue-router';
+import { useStore } from 'vuex';
 import CommonTab from '../components/CommonTab.vue';
+
 export default {
   setup() {
+    const store = useStore()
     const getImgUrl = (name) => {
       //动态引入头像
       return new URL(`../assets/images/${name}.jpg`, import.meta.url).href
     };
+    const router = useRouter()
+    const handleLoginOut = () =>{
+      //清除登陆信息
+      store.commit('cleanMenu');
+      router.push('login')
+
+    }
     return {
       getImgUrl,
+      handleLoginOut
     }
   }
 }

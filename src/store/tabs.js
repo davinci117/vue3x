@@ -1,4 +1,5 @@
-import {ref} from 'vue'
+import { ref } from 'vue'
+import Cookie from 'js-cookie'
 export default {
   state: {
     tableData: ref(
@@ -21,6 +22,7 @@ export default {
       }
     ],
     menu: [],
+    token:'',
 
   },
   mutations: {
@@ -41,22 +43,48 @@ export default {
       const index = state.tabList.findIndex(item => item.name === val.name)
       state.tabList.splice(index, 1)
     },
-    setMenu(state,val){
+    setMenu(state, val) {
       //改变state
       state.menu = val
       //持久化  设置storage、
       window.localStorage.menu = JSON.stringify(val)
     },
-    setMenuStatus(state,status){
+    setMenuStatus(state, status) {
       state.menu = status
+      // const menuArray = []
+      //   state.menu.menu.forEach(item => {
+      //     let url = `../view/${item.url}.vue`
+      //     item.component = () => import(url)
+      //     menuArray.push(item)
+      //   });
+      //   console.log(menuArray);
+      
+      //   menuArray.forEach(item => {
+      //     router.addRoute('home',item)
+      //   });
+    },
+    cleanMenu(state){
+      state.menu = []
+      localStorage.removeItem('menu')
+    },
+    setToken(state,val){
+      state.token = val
+      Cookie.set('token',val)
+    },
+    clear(state){
+      state.token = ''
+      Cookie.remove('token')
+    },
+    getToken(state){
+      state.token = state.token || Cookie.get('token')
     }
-    
+
 
   },
-  actions:{
-    menuStatus({commit}){
+  actions: {
+    menuStatus({ commit }) {
       let menuStatus = JSON.parse(window.localStorage.menu)
-      commit('setMenuStatus',menuStatus)
+      commit('setMenuStatus', menuStatus)
     }
   }
 

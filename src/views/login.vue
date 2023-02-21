@@ -27,8 +27,10 @@ const router = useRouter()
 const store = useStore()
 const login = async () => {
   const res = await proxy.$api.getMenu(form)
-  // console.log(res);
+  console.log(res);
   store.commit('setMenu',res)
+  //设置token
+  store.commit('setToken',res.token)
   router.push({
     name:'home'
   })
