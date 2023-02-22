@@ -51,17 +51,6 @@ export default {
     },
     setMenuStatus(state, status) {
       state.menu = status
-      // const menuArray = []
-      //   state.menu.menu.forEach(item => {
-      //     let url = `../view/${item.url}.vue`
-      //     item.component = () => import(url)
-      //     menuArray.push(item)
-      //   });
-      //   console.log(menuArray);
-      
-      //   menuArray.forEach(item => {
-      //     router.addRoute('home',item)
-      //   });
     },
     cleanMenu(state){
       state.menu = []

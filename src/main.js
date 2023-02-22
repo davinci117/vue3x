@@ -32,6 +32,7 @@ router.beforeEach((to, from, next) => {
   } else {
     next()
   }
+ 
 })
 app.use(router)
 app.config.globalProperties.$api = api
